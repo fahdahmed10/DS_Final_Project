@@ -7,9 +7,9 @@ import pygame  # Import pygame for sound effects
 pygame.mixer.init()
 
 # Load sound effects
-eat_sound = pygame.mixer.Sound(r"C:\Users\Lenovo\OneDrive\Desktop\snake_game\eating_sound.mp3")
-game_over_sound = pygame.mixer.Sound(r"C:\Users\Lenovo\OneDrive\Desktop\snake_game\game_over_sound.mp3")
-win_sound = pygame.mixer.Sound(r"C:\Users\Lenovo\OneDrive\Desktop\snake_game\win_sound.mp3")
+eat_sound = pygame.mixer.Sound(r"C:\Users\Lenovo\OneDrive\Desktop\dataStructureTask\DS_Final_Project\snake_game\eating_sound.mp3")
+game_over_sound = pygame.mixer.Sound(r"C:\Users\Lenovo\OneDrive\Desktop\dataStructureTask\DS_Final_Project\snake_game\game_over_sound.mp3")
+win_sound = pygame.mixer.Sound(r"C:\Users\Lenovo\OneDrive\Desktop\dataStructureTask\DS_Final_Project\snake_game\win_sound.mp3")
 
 # Define winning scores for each difficulty level
 WINNING_SCORES = {
@@ -67,16 +67,16 @@ class Food:
         )
 
     def _generate_coordinates(self):
-        max_x = (GAME_WIDTH // SPACE_SIZE) - 1
+        max_x = (GAME_WIDTH // SPACE_SIZE) - 1  #doing python floor division in here
         max_y = (GAME_HEIGHT // SPACE_SIZE) - 1
         while True:
             x = random.randint(0, max_x) * SPACE_SIZE
             y = random.randint(0, max_y) * SPACE_SIZE
-            if (x, y) not in self.snake.coordinates:
+            if (x, y) not in self.snake.coordinates: #make sure the generated point is not on the snake coordinates
                 return [x, y]
 
-    def respawn(self):
-        self.canvas.delete("food")
+    def respawn(self):    #this is a helper method that gets called when you eat a pieace
+        self.canvas.delete("food")  #deleting the tagged food as its easier way
         self.coordinates = self._generate_coordinates()
         self.food = self.canvas.create_oval(
             self.coordinates[0], self.coordinates[1],
@@ -299,7 +299,6 @@ class Game:
 
         for widget in self.window.winfo_children():
             widget.destroy()
-        self.restart_button = None
         self.close_button = None
 
         self.label = Label(
@@ -425,16 +424,6 @@ class Game:
             fill="white",
             tag="score"
         )
-        if self.restart_button is None:
-            self.restart_button = Button(
-                self.window, text="Restart",
-                font=(FONT_NAME, 24),
-                command=self.init_start_menu,
-                bg="#444", fg="white",
-                activebackground="#666",
-                activeforeground="white"
-            )
-            self.restart_button.pack(pady=20)
 
     def change_direction(self, new_direction):
         opposite_directions = {'left': 'right', 'right': 'left',
@@ -478,16 +467,6 @@ class Game:
             tag="score"
         )
 
-        if self.restart_button is None:
-            self.restart_button = Button(
-                self.window, text="Restart",
-                font=(FONT_NAME, 24),
-                command=self.init_start_menu,
-                bg="#444", fg="white",
-                activebackground="#666",
-                activeforeground="white"
-            )
-            self.restart_button.pack(pady=20)
 
 if __name__ == "__main__":
     import pygame
